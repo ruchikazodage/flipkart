@@ -1,0 +1,11 @@
+2026-09-30 02:03:56 | INFO | conftest | Starting browser: chrome
+2026-09-30 02:03:56 | INFO | conftest | Headless mode: False
+2026-09-30 02:03:56 | INFO | WDM | ====== WebDriver manager ======
+2026-09-30 02:03:57 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-09-30 02:03:58 | INFO | conftest | Browser started successfully
+2026-09-30 02:04:04 | INFO | SearchResultsPage | Compare tray displayed successfully.
+2026-09-30 02:04:04 | INFO | SearchResultsPage | Products selected for comparison: ['REDMI A7 Pro 5G (Black, 64 GB)', 'Vivo T4 Lite 5G (Prism Blue 2026) ( 4GB 64GB)']
+2026-09-30 02:04:04 | INFO | pages.comparison_page | Flipkart comparison products: ['REDMI A7 Pro 5G (Black, 64 GB)', 'Vivo T4 Lite 5G (Prism Blue 2026) ( 4GB 64GB)', 'REDMI A7 Pro 5G (Black, 64 GB)', 'Vivo T4 Lite 5G (Prism Blue 2026) ( 4GB 64GB)']
+2026-09-30 02:04:04 | INFO | pages.comparison_page | Flipkart comparison verification successful.
+2026-09-30 02:04:04 | INFO | conftest | Closing browser
+2026-09-30 02:04:07 | INFO | conftest | Browser closed

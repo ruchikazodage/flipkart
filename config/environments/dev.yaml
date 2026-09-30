@@ -1,0 +1,5 @@
+base_url: "https://dev.example.com/"
+browser: "chrome"
+headless: false
+explicit_wait: 20
+page_load_timeout: 30

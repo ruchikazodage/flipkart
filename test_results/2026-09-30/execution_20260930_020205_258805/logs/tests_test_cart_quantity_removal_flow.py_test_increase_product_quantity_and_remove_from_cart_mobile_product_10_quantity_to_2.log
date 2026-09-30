@@ -1,0 +1,28 @@
+2026-09-30 02:03:00 | INFO | conftest | Starting browser: chrome
+2026-09-30 02:03:00 | INFO | conftest | Headless mode: False
+2026-09-30 02:03:00 | INFO | WDM | ====== WebDriver manager ======
+2026-09-30 02:03:01 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-09-30 02:03:03 | INFO | conftest | Browser started successfully
+2026-09-30 02:03:03 | INFO | test_cart_quantity_removal_flow | Starting cart quantity and removal flow.
+2026-09-30 02:03:03 | INFO | test_cart_quantity_removal_flow | Clearing cart so the test starts with exactly one product.
+2026-09-30 02:03:06 | INFO | CartPage | Cart is already empty; no cleanup is required.
+2026-09-30 02:03:06 | INFO | test_cart_quantity_removal_flow | Opening Flipkart: https://www.flipkart.com/
+2026-09-30 02:03:09 | INFO | test_cart_quantity_removal_flow | Closing the login popup when it is displayed.
+2026-09-30 02:03:09 | INFO | LoginPopupComponent | Login popup was not displayed.
+2026-09-30 02:03:09 | INFO | test_cart_quantity_removal_flow | Searching for product keyword: mobile
+2026-09-30 02:03:11 | INFO | HeaderComponent | Searched from header for: mobile
+2026-09-30 02:03:11 | INFO | test_cart_quantity_removal_flow | Selected product 10: REDMI A7 Pro 5G (Black, 64 GB)
+2026-09-30 02:03:11 | INFO | test_cart_quantity_removal_flow | Opening selected product details.
+2026-09-30 02:03:12 | INFO | test_cart_quantity_removal_flow | Switched to the product-details tab.
+2026-09-30 02:03:14 | INFO | test_cart_quantity_removal_flow | Adding product using the standard Add to Cart control.
+2026-09-30 02:03:16 | INFO | ProductPage | Clicked cart action using locator: ('xpath', "//div[translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='add to cart']")
+2026-09-30 02:03:16 | INFO | test_cart_quantity_removal_flow | Opening the cart to verify the product was added.
+2026-09-30 02:03:17 | INFO | test_cart_quantity_removal_flow | Verifying the selected product is present in the cart.
+2026-09-30 02:03:19 | INFO | CartPage | Verified product is visible in cart: REDMI A7 Pro 5G (Black, 64 GB)
+2026-09-30 02:03:19 | INFO | test_cart_quantity_removal_flow | Verifying the reusable cart summary component is visible.
+2026-09-30 02:03:19 | INFO | CartSummaryComponent | Cart summary is visible.
+2026-09-30 02:03:19 | INFO | test_cart_quantity_removal_flow | Increasing 'REDMI A7 Pro 5G (Black, 64 GB)' quantity by one with the + control.
+2026-09-30 02:03:26 | INFO | CartPage | No visible + quantity control found; using Flipkart's Qty selector fallback.
+2026-09-30 02:03:40 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-09-30\execution_20260930_020205_258805\screenshots\tests_test_cart_quantity_removal_flow.py_test_increase_product_quantity_and_remo_7fdf08fe27.png
+2026-09-30 02:03:40 | INFO | conftest | Closing browser
+2026-09-30 02:03:43 | INFO | conftest | Browser closed

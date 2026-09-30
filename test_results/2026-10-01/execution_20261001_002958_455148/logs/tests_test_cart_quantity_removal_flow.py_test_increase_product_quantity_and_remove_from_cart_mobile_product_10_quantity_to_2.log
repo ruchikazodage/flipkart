@@ -1,0 +1,10 @@
+2026-10-01 00:30:33 | INFO | conftest | Starting browser: chrome
+2026-10-01 00:30:33 | INFO | conftest | Headless mode: False
+2026-10-01 00:30:33 | INFO | WDM | ====== WebDriver manager ======
+2026-10-01 00:30:33 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-10-01 00:30:35 | INFO | conftest | Browser started successfully
+2026-10-01 00:30:35 | INFO | test_cart_quantity_removal_flow | Starting cart quantity and removal flow.
+2026-10-01 00:30:35 | INFO | test_cart_quantity_removal_flow | Clearing cart so the test starts with exactly one product.
+2026-10-01 00:30:51 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-10-01\execution_20261001_002958_455148\screenshots\tests_test_cart_quantity_removal_flow.py_test_increase_product_quantity_and_remo_7fdf08fe27.png
+2026-10-01 00:30:51 | INFO | conftest | Closing browser
+2026-10-01 00:30:53 | INFO | conftest | Browser closed

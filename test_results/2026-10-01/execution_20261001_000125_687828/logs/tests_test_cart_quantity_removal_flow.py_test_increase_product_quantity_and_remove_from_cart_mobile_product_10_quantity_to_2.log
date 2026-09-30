@@ -1,0 +1,26 @@
+2026-10-01 00:01:26 | INFO | conftest | Starting browser: chrome
+2026-10-01 00:01:26 | INFO | conftest | Headless mode: False
+2026-10-01 00:01:26 | INFO | WDM | ====== WebDriver manager ======
+2026-10-01 00:01:27 | INFO | WDM | Get LATEST chromedriver version for google-chrome
+2026-10-01 00:01:28 | INFO | WDM | Get LATEST chromedriver version for google-chrome
+2026-10-01 00:01:30 | INFO | WDM | WebDriver version 154.0.8037.92 selected
+2026-10-01 00:01:30 | INFO | WDM | Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/154.0.8037.92/win64/chromedriver-win64.zip
+2026-10-01 00:01:30 | INFO | WDM | About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/154.0.8037.92/win64/chromedriver-win64.zip
+2026-10-01 00:01:31 | INFO | WDM | Driver downloading response is 200
+2026-10-01 00:01:34 | INFO | WDM | Driver has been saved in cache [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92]
+2026-10-01 00:01:36 | INFO | conftest | Browser started successfully
+2026-10-01 00:01:36 | INFO | test_cart_quantity_removal_flow | Starting cart quantity and removal flow.
+2026-10-01 00:01:36 | INFO | test_cart_quantity_removal_flow | Clearing cart so the test starts with exactly one product.
+2026-10-01 00:01:39 | INFO | CartPage | Cart is already empty; no cleanup is required.
+2026-10-01 00:01:39 | INFO | test_cart_quantity_removal_flow | Opening Flipkart: https://www.flipkart.com/
+2026-10-01 00:01:42 | INFO | test_cart_quantity_removal_flow | Closing the login popup when it is displayed.
+2026-10-01 00:01:42 | INFO | LoginPopupComponent | Login popup was not displayed.
+2026-10-01 00:01:42 | INFO | test_cart_quantity_removal_flow | Searching for product keyword: mobile
+2026-10-01 00:01:43 | INFO | HeaderComponent | Searched from header for: mobile
+2026-10-01 00:01:44 | INFO | test_cart_quantity_removal_flow | Selected product 10: Samsung Galaxy F07 (Green, 64 GB)
+2026-10-01 00:01:44 | INFO | test_cart_quantity_removal_flow | Opening selected product details.
+2026-10-01 00:01:44 | INFO | test_cart_quantity_removal_flow | Switched to the product-details tab.
+2026-10-01 00:01:55 | INFO | test_cart_quantity_removal_flow | Adding product using the viewport-lazy Add 1 Item to Cart control.
+2026-10-01 00:02:15 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-10-01\execution_20261001_000125_687828\screenshots\tests_test_cart_quantity_removal_flow.py_test_increase_product_quantity_and_remo_7fdf08fe27.png
+2026-10-01 00:02:15 | INFO | conftest | Closing browser
+2026-10-01 00:02:18 | INFO | conftest | Browser closed

@@ -1,0 +1,5 @@
+cart_quantity_removal:
+  - id: mobile_product_10_quantity_to_2
+    keyword: mobile
+    product_index: 10
+    expected_quantity: 2

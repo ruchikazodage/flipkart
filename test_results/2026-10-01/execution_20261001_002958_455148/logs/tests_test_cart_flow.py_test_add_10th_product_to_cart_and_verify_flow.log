@@ -1,0 +1,9 @@
+2026-10-01 00:29:58 | INFO | conftest | Starting browser: chrome
+2026-10-01 00:29:58 | INFO | conftest | Headless mode: False
+2026-10-01 00:29:58 | INFO | WDM | ====== WebDriver manager ======
+2026-10-01 00:29:59 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-10-01 00:30:01 | INFO | conftest | Browser started successfully
+2026-10-01 00:30:05 | INFO | CartPage | Cart is already empty; no cleanup is required.
+2026-10-01 00:30:30 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-10-01\execution_20261001_002958_455148\screenshots\tests_test_cart_flow.py_test_add_10th_product_to_cart_and_verify_flow_4fe1463de5.png
+2026-10-01 00:30:30 | INFO | conftest | Closing browser
+2026-10-01 00:30:33 | INFO | conftest | Browser closed

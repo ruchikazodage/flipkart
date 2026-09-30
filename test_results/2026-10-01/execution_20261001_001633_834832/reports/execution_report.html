@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title id="head-title">execution_report.html</title>
+      <style type="text/css">body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  /* do not increase min-width as some may use split screens */
+  min-width: 800px;
+  color: #999;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+}
+
+h2 {
+  font-size: 16px;
+  color: black;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: #999;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+#environment td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  vertical-align: top;
+}
+#environment tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+#environment ul {
+  margin: 0;
+  padding: 0 20px;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed,
+.passed .col-result {
+  color: green;
+}
+
+span.skipped,
+span.xfailed,
+span.rerun,
+.skipped .col-result,
+.xfailed .col-result,
+.rerun .col-result {
+  color: orange;
+}
+
+span.error,
+span.failed,
+span.xpassed,
+.error .col-result,
+.failed .col-result,
+.xpassed .col-result {
+  color: red;
+}
+
+.col-links__extra {
+  margin-right: 3px;
+}
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+#results-table {
+  border: 1px solid #e6e6e6;
+  color: #999;
+  font-size: 12px;
+  width: 100%;
+}
+#results-table th,
+#results-table td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  text-align: left;
+}
+#results-table th {
+  font-weight: bold;
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+.logwrapper {
+  max-height: 230px;
+  overflow-y: scroll;
+  background-color: #e6e6e6;
+}
+.logwrapper.expanded {
+  max-height: none;
+}
+.logwrapper.expanded .logexpander:after {
+  content: "collapse [-]";
+}
+.logwrapper .logexpander {
+  z-index: 1;
+  position: sticky;
+  top: 10px;
+  width: max-content;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin: 10px 0 10px calc(100% - 80px);
+  cursor: pointer;
+  background-color: #e6e6e6;
+}
+.logwrapper .logexpander:after {
+  content: "expand [+]";
+}
+.logwrapper .logexpander:hover {
+  color: #000;
+  border-color: #000;
+}
+.logwrapper .log {
+  min-height: 40px;
+  position: relative;
+  top: -50px;
+  height: calc(100% + 50px);
+  border: 1px solid #e6e6e6;
+  color: black;
+  display: block;
+  font-family: "Courier New", Courier, monospace;
+  padding: 5px;
+  padding-right: 80px;
+  white-space: pre-wrap;
+}
+
+div.media {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin: 0 5px;
+  overflow: hidden;
+  width: 320px;
+}
+
+.media-container {
+  display: grid;
+  grid-template-columns: 25px auto 25px;
+  align-items: center;
+  flex: 1 1;
+  overflow: hidden;
+  height: 200px;
+}
+
+.media-container--fullscreen {
+  grid-template-columns: 0px auto 0px;
+}
+
+.media-container__nav--right,
+.media-container__nav--left {
+  text-align: center;
+  cursor: pointer;
+}
+
+.media-container__viewport {
+  cursor: pointer;
+  text-align: center;
+  height: inherit;
+}
+.media-container__viewport img,
+.media-container__viewport video {
+  object-fit: cover;
+  width: 100%;
+  max-height: 100%;
+}
+
+.media__name,
+.media__counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex: 0 0 25px;
+  align-items: center;
+}
+
+.collapsible td:not(.col-links) {
+  cursor: pointer;
+}
+.collapsible td:not(.col-links):hover::after {
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.col-result {
+  width: 130px;
+}
+.col-result:hover::after {
+  content: " (hide details)";
+}
+
+.col-result.collapsed:hover::after {
+  content: " (show details)";
+}
+
+#environment-header h2:hover::after {
+  content: " (hide details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#environment-header.collapsed h2:hover::after {
+  content: " (show details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+  cursor: pointer;
+}
+.sortable.desc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: -12.5px;
+  border: 10px solid #4caf50;
+  border-bottom: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+.sortable.asc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: 12.5px;
+  border: 10px solid #4caf50;
+  border-top: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.hidden, .summary__reload__button.hidden {
+  display: none;
+}
+
+.summary__data {
+  flex: 0 0 550px;
+}
+.summary__reload {
+  flex: 1 1;
+  display: flex;
+  justify-content: center;
+}
+.summary__reload__button {
+  flex: 0 0 300px;
+  display: flex;
+  color: white;
+  font-weight: bold;
+  background-color: #4caf50;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.summary__reload__button:hover {
+  background-color: #46a049;
+}
+.summary__spacer {
+  flex: 0 0 550px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters,
+.collapse {
+  display: flex;
+  align-items: center;
+}
+.filters button,
+.collapse button {
+  color: #999;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.filters button:hover,
+.collapse button:hover {
+  color: #ccc;
+}
+
+.filter__label {
+  margin-right: 10px;
+}
+
+      </style>
+    
+  </head>
+  <body>
+    <h1 id="title">execution_report.html</h1>
+    <p>Report generated on 01-Oct-2026 at 00:19:18 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+        v4.2.0</p>
+    <div id="environment-header">
+      <h2>Environment</h2>
+    </div>
+    <table id="environment"></table>
+    <!-- TEMPLATES -->
+      <template id="template_environment_row">
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+    </template>
+    <template id="template_results-table__body--empty">
+      <tbody class="results-table-row">
+        <tr id="not-found-message">
+          <td colspan="4">No results found. Check the filters.</td>
+        </tr>
+      </tbody>
+    </template>
+    <template id="template_results-table__tbody">
+      <tbody class="results-table-row">
+        <tr class="collapsible">
+        </tr>
+        <tr class="extras-row">
+          <td class="extra" colspan="4">
+            <div class="extraHTML"></div>
+            <div class="media">
+              <div class="media-container">
+                  <div class="media-container__nav--left">&lt;</div>
+                  <div class="media-container__viewport">
+                    <img src="" />
+                    <video controls>
+                      <source src="" type="video/mp4">
+                    </video>
+                  </div>
+                  <div class="media-container__nav--right">&gt;</div>
+                </div>
+                <div class="media__name"></div>
+                <div class="media__counter"></div>
+            </div>
+            <div class="logwrapper">
+              <div class="logexpander"></div>
+              <div class="log"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </template>
+    <!-- END TEMPLATES -->
+    <div class="summary">
+      <div class="summary__data">
+        <h2>Summary</h2>
+        <div class="additional-summary prefix">
+        </div>
+        <p class="run-count">5 tests took 00:02:44.</p>
+        <p class="filter">(Un)check the boxes to filter the results.</p>
+        <div class="summary__reload">
+          <div class="summary__reload__button hidden" onclick="location.reload()">
+            <div>There are still tests running. <br />Reload this page to get the latest results!</div>
+          </div>
+        </div>
+        <div class="summary__spacer"></div>
+        <div class="controls">
+          <div class="filters">
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" >
+            <span class="failed">4 Failed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" >
+            <span class="passed">1 Passed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="skipped" disabled>
+            <span class="skipped">0 Skipped,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xfailed" disabled>
+            <span class="xfailed">0 Expected failures,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xpassed" disabled>
+            <span class="xpassed">0 Unexpected passes,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="error" disabled>
+            <span class="error">0 Errors,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="rerun" disabled>
+            <span class="rerun">0 Reruns</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="retried" disabled>
+            <span class="retried">0 Retried,</span>
+          </div>
+          <div class="collapse">
+            <button id="show_all_details">Show all details</button>&nbsp;/&nbsp;<button id="hide_all_details">Hide all details</button>
+          </div>
+        </div>
+      </div>
+      <div class="additional-summary summary">
+      </div>
+      <div class="additional-summary postfix">
+      </div>
+    </div>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable" data-column-type="result">Result</th>
+          <th class="sortable" data-column-type="testId">Test</th>
+          <th class="sortable" data-column-type="duration">Duration</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+    </table>
+  <footer>
+    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.14.2&#34;, &#34;Platform&#34;: &#34;Windows-10-10.0.19045-SP0&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;9.0.3&#34;, &#34;pluggy&#34;: &#34;1.6.0&#34;}, &#34;Plugins&#34;: {&#34;allure-pytest&#34;: &#34;2.16.0&#34;, &#34;html&#34;: &#34;4.2.0&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;}, &#34;JAVA_HOME&#34;: &#34;C:\\Program Files\\Java\\jdk-17&#34;}, &#34;tests&#34;: {&#34;tests/test_cart_flow.py::test_add_10th_product_to_cart_and_verify_flow&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/test_cart_flow.py::test_add_10th_product_to_cart_and_verify_flow&#34;, &#34;duration&#34;: &#34;00:00:39&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_cart_flow.py::test_add_10th_product_to_cart_and_verify_flow&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:39&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;945c517308bfad6dad1ef6a8bc990c7f&amp;quot;)&amp;gt;\n\n    def test_add_10th_product_to_cart_and_verify_flow(driver):\n        &amp;quot;&amp;quot;&amp;quot;\n        Full flow:\n        - Clear any existing cart items, then search for the keyword\n        - From results take 10th product: capture name and price\n        - Open product, Add to cart, verify &amp;#x27;Going to cart&amp;#x27;\n        - Go to cart, verify the product and its price/discount/platform-fee calculation\n        - Increase qty to 2, verify quantity changed and confirmation appears\n        - Remove item and verify removal confirmation and empty-cart message\n        &amp;quot;&amp;quot;&amp;quot;\n    \n        home_page = HomePage(driver)\n        search_results_page = SearchResultsPage(driver)\n        product_page = ProductPage(driver)\n        cart_page = CartPage(driver)\n    \n        base_url = environment_config[&amp;quot;base_url&amp;quot;]\n        keyword = test_data[&amp;quot;search&amp;quot;][&amp;quot;keyword&amp;quot;]\n    \n        # Start from an empty cart so previous runs do not affect the total.\n        cart_page.clear_cart_items(base_url)\n    \n        # Open site and search\n        home_page.open(base_url)\n        home_page.close_login_popup_if_present()\n        home_page.search(keyword)\n    \n        product_index = 10\n    \n        # Capture name and struck-through/original price from the search results.\n        product_name = search_results_page.get_product_name_by_index(product_index)\n        list_price_text = search_results_page.get_original_product_price_by_index(product_index)\n        list_price = _parse_price(list_price_text)\n    \n        logger.info(&amp;quot;10th product name: %s&amp;quot;, product_name)\n        logger.info(&amp;quot;10th product original price: %s -&amp;gt; %s&amp;quot;, list_price_text, list_price)\n    \n        # Click product (may open new tab)\n        handles_before = driver.window_handles[:]\n        search_results_page.click_product_by_index(product_index)\n    \n        # If new window opened, switch\n        time.sleep(1)\n        handles_after = driver.window_handles\n        if len(handles_after) &amp;gt; len(handles_before):\n            new = [h for h in handles_after if h not in handles_before][0]\n            driver.switch_to.window(new)\n    \n        # Lower-priced products commonly expose Add to Cart directly. Some\n        # higher-priced/EMI product layouts expose the lower-page Add 1 Item to\n        # Cart CTA instead, so select the applicable product-add journey.\n        if product_page.is_add_to_cart_available():\n            logger.info(&amp;quot;Using standard Add to Cart action.&amp;quot;)\n            product_page.click_add_to_cart()\n        else:\n            logger.info(&amp;quot;Using alternate Add 1 Item to Cart action.&amp;quot;)\n            product_page.add_one_item_to_cart()\n    \n        # Verify button changed after the applicable add-to-cart action.\n        product_page.verify_going_to_cart()\n    \n        # Click Going to Cart to go to cart page\n        product_page.click_going_to_cart()\n    \n        # Verify the selected product and its original price in the cart.\n&amp;gt;       cart_page.verify_product_in_cart(product_name)\n\ntests\\test_cart_flow.py:89: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;pages.cart_page.CartPage object at 0x00000210E522ACF0&amp;gt;\nproduct_name = &amp;#x27;Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons&amp;#x27;\n\n    def verify_product_in_cart(self, product_name):\n        page_text = (self.driver.find_element(By.TAG_NAME, &amp;quot;body&amp;quot;).text or &amp;quot;&amp;quot;).lower()\n&amp;gt;       assert product_name.strip().lower() in page_text, (\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n            f&amp;quot;Product &amp;#x27;{product_name}&amp;#x27; not found in cart page&amp;quot;\n        )\nE       AssertionError: Product &amp;#x27;Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons&amp;#x27; not found in cart page\n\npages\\cart_page.py:137: AssertionError\n\n------------------------------ Captured log setup ------------------------------\nINFO     conftest:conftest.py:431 Starting browser: chrome\nINFO     conftest:conftest.py:436 Headless mode: False\nINFO     WDM:logger.py:11 ====== WebDriver manager ======\nINFO     WDM:logger.py:11 Driver [C:\\Users\\Admin\\.wdm\\drivers\\chromedriver\\win64\\154.0.8037.92\\chromedriver-win64/chromedriver.exe] found in cache by browser version\nINFO     conftest:conftest.py:450 Browser started successfully\n\n------------------------------ Captured log call -------------------------------\nINFO     CartPage:cart_page.py:65 Cart is already empty; no cleanup is required.\nINFO     test_cart_flow:test_cart_flow.py:58 10th product name: Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons\nINFO     test_cart_flow:test_cart_flow.py:59 10th product original price: \u20b92,399 -&amp;gt; 2399\nINFO     test_cart_flow:test_cart_flow.py:76 Using standard Add to Cart action.\nINFO     ProductPage:product_page.py:135 Clicked cart action using locator: (&amp;#x27;xpath&amp;#x27;, &amp;quot;//div[translate(normalize-space(text()), &amp;#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#x27;, &amp;#x27;abcdefghijklmnopqrstuvwxyz&amp;#x27;)=&amp;#x27;add to cart&amp;#x27;]&amp;quot;)\nINFO     ProductPage:product_page.py:135 Clicked cart action using locator: (&amp;#x27;xpath&amp;#x27;, &amp;quot;//div[translate(normalize-space(text()), &amp;#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#x27;, &amp;#x27;abcdefghijklmnopqrstuvwxyz&amp;#x27;)=&amp;#x27;going to cart&amp;#x27; or translate(normalize-space(text()), &amp;#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#x27;, &amp;#x27;abcdefghijklmnopqrstuvwxyz&amp;#x27;)=&amp;#x27;go to cart&amp;#x27;]&amp;quot;)\n\n---------------------------- Captured log teardown -----------------------------\nINFO     conftest:conftest.py:464 Closing browser\nINFO     conftest:conftest.py:470 Browser closed&#34;}], &#34;tests/test_cart_quantity_removal_flow.py::test_increase_product_quantity_and_remove_from_cart[mobile_product_10_quantity_to_2]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/test_cart_quantity_removal_flow.py::test_increase_product_quantity_and_remove_from_cart[mobile_product_10_quantity_to_2]&#34;, &#34;duration&#34;: &#34;00:00:44&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_cart_quantity_removal_flow.py::test_increase_product_quantity_and_remove_from_cart[mobile_product_10_quantity_to_2]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:44&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;e1e875d7fa6ebeaa05102fbfa9df08a3&amp;quot;)&amp;gt;\nscenario = {&amp;#x27;expected_quantity&amp;#x27;: 2, &amp;#x27;id&amp;#x27;: &amp;#x27;mobile_product_10_quantity_to_2&amp;#x27;, &amp;#x27;keyword&amp;#x27;: &amp;#x27;mobile&amp;#x27;, &amp;#x27;product_index&amp;#x27;: 10}\n\n    @pytest.mark.regression\n    @pytest.mark.parametrize(\n        &amp;quot;scenario&amp;quot;,\n        cart_test_data[&amp;quot;cart_quantity_removal&amp;quot;],\n        ids=lambda scenario: scenario[&amp;quot;id&amp;quot;],\n    )\n    def test_increase_product_quantity_and_remove_from_cart(driver, scenario):\n        &amp;quot;&amp;quot;&amp;quot;Increase a cart item to two, validate messages, then remove it.&amp;quot;&amp;quot;&amp;quot;\n        header = HeaderComponent(driver)\n        login_popup = LoginPopupComponent(driver)\n        cart_summary = CartSummaryComponent(driver)\n        search_results_page = SearchResultsPage(driver)\n        product_page = ProductPage(driver)\n        cart_page = CartPage(driver)\n    \n        base_url = environment_config[&amp;quot;base_url&amp;quot;]\n        keyword = scenario[&amp;quot;keyword&amp;quot;]\n        product_index = scenario[&amp;quot;product_index&amp;quot;]\n        expected_quantity = scenario[&amp;quot;expected_quantity&amp;quot;]\n    \n        logger.info(&amp;quot;Starting cart quantity and removal flow.&amp;quot;)\n        logger.info(&amp;quot;Clearing cart so the test starts with exactly one product.&amp;quot;)\n        cart_page.clear_cart_items(base_url)\n    \n        logger.info(&amp;quot;Opening Flipkart: %s&amp;quot;, base_url)\n        driver.get(base_url)\n        logger.info(&amp;quot;Closing the login popup when it is displayed.&amp;quot;)\n        login_popup.close_if_present()\n    \n        logger.info(&amp;quot;Searching for product keyword: %s&amp;quot;, keyword)\n        header.search(keyword)\n        product_name = search_results_page.get_product_name_by_index(product_index)\n        logger.info(&amp;quot;Selected product %s: %s&amp;quot;, product_index, product_name)\n    \n        handles_before = driver.window_handles[:]\n        logger.info(&amp;quot;Opening selected product details.&amp;quot;)\n        search_results_page.click_product_by_index(product_index)\n        WebDriverWait(driver, 10).until(\n            lambda browser: len(browser.window_handles) &amp;gt; len(handles_before)\n        )\n        product_handle = next(\n            handle for handle in driver.window_handles if handle not in handles_before\n        )\n        driver.switch_to.window(product_handle)\n        logger.info(&amp;quot;Switched to the product-details tab.&amp;quot;)\n    \n        if product_page.is_add_to_cart_available():\n            logger.info(&amp;quot;Adding product using the standard Add to Cart control.&amp;quot;)\n            product_page.add_to_cart()\n        else:\n            logger.info(&amp;quot;Adding product using the viewport-lazy Add 1 Item to Cart control.&amp;quot;)\n&amp;gt;           product_page.add_one_item_to_cart()\n\ntests\\test_cart_quantity_removal_flow.py:70: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \npages\\product_page.py:203: in add_one_item_to_cart\n    self._click_first_available(self.ADD_ONE_ITEM_TO_CART_LOCATORS)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;pages.product_page.ProductPage object at 0x00000210E52B1590&amp;gt;\nlocators = [(&amp;#x27;xpath&amp;#x27;, &amp;quot;//*[self::button or self::div or @role=&amp;#x27;button&amp;#x27;][translate(normalize-space(.), &amp;#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ...le=&amp;#x27;button&amp;#x27;][translate(normalize-space(.), &amp;#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#x27;, &amp;#x27;abcdefghijklmnopqrstuvwxyz&amp;#x27;)=&amp;#x27;add 1 item&amp;#x27;]&amp;quot;)]\ntimeout = 20\n\n    def _click_first_available(self, locators, timeout=20):\n        &amp;quot;&amp;quot;&amp;quot;Find and click a cart action, scrolling for viewport-lazy CTAs.\n    \n        Flipkart can defer rendering the alternate ``Add 1 Item to Cart``\n        control until the product details below the initial viewport are\n        reached.  Scrolling must therefore happen while looking for the\n        locator, rather than only after Selenium has found it.\n        &amp;quot;&amp;quot;&amp;quot;\n        deadline = monotonic() + timeout\n        last_scroll_position = None\n    \n        while monotonic() &amp;lt; deadline:\n            for locator in locators:\n                try:\n                    for element in self.driver.find_elements(*locator):\n                        if not element.is_displayed() or not element.is_enabled():\n                            continue\n    \n                        self.driver.execute_script(\n                            &amp;quot;arguments[0].scrollIntoView({block: &amp;#x27;center&amp;#x27;, inline: &amp;#x27;center&amp;#x27;});&amp;quot;,\n                            element,\n                        )\n                        try:\n                            element.click()\n                        except Exception:\n                            self.driver.execute_script(&amp;quot;arguments[0].click();&amp;quot;, element)\n    \n                        self.logger.info(&amp;quot;Clicked cart action using locator: %s&amp;quot;, locator)\n                        return True\n                except Exception:\n                    # The page is dynamic; retry after the next scroll step.\n                    continue\n    \n            scroll_position, viewport_height, page_height = self.driver.execute_script(\n                &amp;quot;return [window.pageYOffset, window.innerHeight, &amp;quot;\n                &amp;quot;document.documentElement.scrollHeight];&amp;quot;\n            )\n            if (\n                scroll_position == last_scroll_position\n                and scroll_position + viewport_height + 1 &amp;gt;= page_height\n            ):\n                # A final rescan at the top handles controls that render while\n                # the page is being scrolled, without remaining at the footer.\n                self.driver.execute_script(&amp;quot;window.scrollTo(0, 0);&amp;quot;)\n            else:\n                self.driver.execute_script(\n                    &amp;quot;window.scrollBy(0, Math.max(500, window.innerHeight * 0.8));&amp;quot;\n                )\n            last_scroll_position = scroll_position\n            sleep(0.25)\n    \n&amp;gt;       raise TimeoutError(f&amp;quot;None of the cart action locators matched: {locators}&amp;quot;)\nE       TimeoutError: None of the cart action locators matched: [(&amp;#x27;xpath&amp;#x27;, &amp;quot;//*[self::button or self::div or @role=&amp;#x27;button&amp;#x27;][translate(normalize-space(.), &amp;#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#x27;, &amp;#x27;abcdefghijklmnopqrstuvwxyz&amp;#x27;)=&amp;#x27;add 1 item to cart&amp;#x27;]&amp;quot;), (&amp;#x27;xpath&amp;#x27;, &amp;quot;//*[self::button or self::div or @role=&amp;#x27;button&amp;#x27;][translate(normalize-space(.), &amp;#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#x27;, &amp;#x27;abcdefghijklmnopqrstuvwxyz&amp;#x27;)=&amp;#x27;add 1 item&amp;#x27;]&amp;quot;)]\n\npages\\product_page.py:159: TimeoutError\n\n------------------------------ Captured log setup ------------------------------\nINFO     conftest:conftest.py:431 Starting browser: chrome\nINFO     conftest:conftest.py:436 Headless mode: False\nINFO     WDM:logger.py:11 ====== WebDriver manager ======\nINFO     WDM:logger.py:11 Driver [C:\\Users\\Admin\\.wdm\\drivers\\chromedriver\\win64\\154.0.8037.92\\chromedriver-win64/chromedriver.exe] found in cache by browser version\nINFO     conftest:conftest.py:450 Browser started successfully\n\n------------------------------ Captured log call -------------------------------\nINFO     test_cart_quantity_removal_flow:test_cart_quantity_removal_flow.py:39 Starting cart quantity and removal flow.\nINFO     test_cart_quantity_removal_flow:test_cart_quantity_removal_flow.py:40 Clearing cart so the test starts with exactly one product.\nINFO     CartPage:cart_page.py:65 Cart is already empty; no cleanup is required.\nINFO     test_cart_quantity_removal_flow:test_cart_quantity_removal_flow.py:43 Opening Flipkart: https://www.flipkart.com/\nINFO     test_cart_quantity_removal_flow:test_cart_quantity_removal_flow.py:45 Closing the login popup when it is displayed.\nINFO     LoginPopupComponent:login_popup_component.py:26 Login popup was not displayed.\nINFO     test_cart_quantity_removal_flow:test_cart_quantity_removal_flow.py:48 Searching for product keyword: mobile\nINFO     HeaderComponent:header_component.py:20 Searched from header for: mobile\nINFO     test_cart_quantity_removal_flow:test_cart_quantity_removal_flow.py:51 Selected product 10: BOLTT EVO (Lavender Bloom, 64 GB)\nINFO     test_cart_quantity_removal_flow:test_cart_quantity_removal_flow.py:54 Opening selected product details.\nINFO     test_cart_quantity_removal_flow:test_cart_quantity_removal_flow.py:63 Switched to the product-details tab.\nINFO     test_cart_quantity_removal_flow:test_cart_quantity_removal_flow.py:69 Adding product using the viewport-lazy Add 1 Item to Cart control.\n\n---------------------------- Captured log teardown -----------------------------\nINFO     conftest:conftest.py:464 Closing browser\nINFO     conftest:conftest.py:470 Browser closed&#34;}], &#34;tests/test_flipkart_flow.py::test_verify_mobile_search_result_message&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/test_flipkart_flow.py::test_verify_mobile_search_result_message&#34;, &#34;duration&#34;: &#34;00:00:29&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_flipkart_flow.py::test_verify_mobile_search_result_message&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:29&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;68d8df2635c2e41ea2426fe76a0a6071&amp;quot;)&amp;gt;\n\n    def test_verify_mobile_search_result_message(driver):\n    \n        base_url = environment_config[&amp;quot;base_url&amp;quot;]\n        keyword = test_data[&amp;quot;search&amp;quot;][&amp;quot;keyword&amp;quot;]\n    \n        home_page = HomePage(driver)\n        search_results_page = SearchResultsPage(driver)\n    \n    \n        # Step 1: Open Flipkart\n        home_page.open(base_url)\n    \n        # Step 2: Close login popup if displayed\n        home_page.close_login_popup_if_present()\n    \n        # Step 3: Search for mobile\n        home_page.search(keyword)\n    \n        # Step 4: Verify search result message\n        actual_message = (\n            search_results_page\n&amp;gt;           .verify_search_result_message(keyword)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        )\n\ntests\\test_flipkart_flow.py:37: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \npages\\search_results_page.py:62: in verify_search_result_message\n    actual_message = WebDriverWait(self.driver, timeout).until(\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;selenium.webdriver.support.wait.WebDriverWait (session=&amp;quot;68d8df2635c2e41ea2426fe76a0a6071&amp;quot;)&amp;gt;\nmethod = &amp;lt;function SearchResultsPage.verify_search_result_message.&amp;lt;locals&amp;gt;.matching_summary at 0x00000210E5226A30&amp;gt;\nmessage = &amp;quot;Search-result message did not match the expected format for &amp;#x27;button mobile&amp;#x27;.&amp;quot;\n\n    def until(self, method: Callable[[D], Literal[False] | T], message: str = &amp;quot;&amp;quot;) -&amp;gt; T:\n        &amp;quot;&amp;quot;&amp;quot;Wait until the method returns a value that is not False.\n    \n        Calls the method provided with the driver as an argument until the\n        return value does not evaluate to ``False``.\n    \n        Args:\n            method: A callable object that takes a WebDriver instance as an\n                argument.\n            message: Optional message for TimeoutException.\n    \n        Returns:\n            The result of the last call to `method`.\n    \n        Raises:\n            TimeoutException: If &amp;#x27;method&amp;#x27; does not return a truthy value within\n                the WebDriverWait object&amp;#x27;s timeout.\n    \n        Example:\n            &amp;gt;&amp;gt;&amp;gt; from selenium.webdriver.common.by import By\n            &amp;gt;&amp;gt;&amp;gt; from selenium.webdriver.support.ui import WebDriverWait\n            &amp;gt;&amp;gt;&amp;gt; from selenium.webdriver.support import expected_conditions as EC\n            &amp;gt;&amp;gt;&amp;gt;\n            &amp;gt;&amp;gt;&amp;gt; # Wait until an element is visible on the page\n            &amp;gt;&amp;gt;&amp;gt; wait = WebDriverWait(driver, 10)\n            &amp;gt;&amp;gt;&amp;gt; element = wait.until(EC.visibility_of_element_located((By.ID, &amp;quot;exampleId&amp;quot;)))\n            &amp;gt;&amp;gt;&amp;gt; print(element.text)\n        &amp;quot;&amp;quot;&amp;quot;\n        screen = None\n        stacktrace = None\n    \n        end_time = time.monotonic() + self._timeout\n        while True:\n            try:\n                value = method(self._driver)\n                if value:\n                    return value\n            except self._ignored_exceptions as exc:\n                screen = getattr(exc, &amp;quot;screen&amp;quot;, None)\n                stacktrace = getattr(exc, &amp;quot;stacktrace&amp;quot;, None)\n            if time.monotonic() &amp;gt; end_time:\n                break\n            time.sleep(self._poll)\n&amp;gt;       raise TimeoutException(message, screen, stacktrace)\nE       selenium.common.exceptions.TimeoutException: Message: Search-result message did not match the expected format for &amp;#x27;button mobile&amp;#x27;.\n\n..\\..\\..\\AppData\\Roaming\\Python\\Python314\\site-packages\\selenium\\webdriver\\support\\wait.py:121: TimeoutException\n\n------------------------------ Captured log setup ------------------------------\nINFO     conftest:conftest.py:431 Starting browser: chrome\nINFO     conftest:conftest.py:436 Headless mode: False\nINFO     WDM:logger.py:11 ====== WebDriver manager ======\nINFO     WDM:logger.py:11 Driver [C:\\Users\\Admin\\.wdm\\drivers\\chromedriver\\win64\\154.0.8037.92\\chromedriver-win64/chromedriver.exe] found in cache by browser version\nINFO     conftest:conftest.py:450 Browser started successfully\n---------------------------- Captured log teardown -----------------------------\nINFO     conftest:conftest.py:464 Closing browser\nINFO     conftest:conftest.py:470 Browser closed&#34;}], &#34;tests/test_flipkart_flow.py::test_verify_compare_10th_and_11th_mobile&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_flipkart_flow.py::test_verify_compare_10th_and_11th_mobile&#34;, &#34;duration&#34;: &#34;00:00:12&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_flipkart_flow.py::test_verify_compare_10th_and_11th_mobile&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:12&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;------------------------------ Captured log setup ------------------------------\nINFO     conftest:conftest.py:431 Starting browser: chrome\nINFO     conftest:conftest.py:436 Headless mode: False\nINFO     WDM:logger.py:11 ====== WebDriver manager ======\nINFO     WDM:logger.py:11 Driver [C:\\Users\\Admin\\.wdm\\drivers\\chromedriver\\win64\\154.0.8037.92\\chromedriver-win64/chromedriver.exe] found in cache by browser version\nINFO     conftest:conftest.py:450 Browser started successfully\n\n------------------------------ Captured log call -------------------------------\nINFO     SearchResultsPage:search_results_page.py:220 Compare tray displayed successfully.\nINFO     SearchResultsPage:search_results_page.py:224 Products selected for comparison: [&amp;#x27;Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons&amp;#x27;, &amp;#x27;itel it5330 | 2.8 inch Big Display | 1900 mAh Battery | Kingvoice&amp;#x27;]\nINFO     pages.comparison_page:comparison_page.py:192 Flipkart comparison products: [&amp;#x27;Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons&amp;#x27;, &amp;#x27;itel it5330 | 2.8 inch Big Display | 1900 mAh Battery | Kingvoice&amp;#x27;, &amp;#x27;Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons&amp;#x27;, &amp;#x27;itel it5330 | 2.8 inch Big Display | 1900 mAh Battery | Kingvoice&amp;#x27;]\nINFO     pages.comparison_page:comparison_page.py:204 Flipkart comparison verification successful.\n\n---------------------------- Captured log teardown -----------------------------\nINFO     conftest:conftest.py:464 Closing browser\nINFO     conftest:conftest.py:470 Browser closed&#34;}], &#34;tests/test_flipkart_flow.py::test_verify_product_add_to_cart_and_total_amount&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/test_flipkart_flow.py::test_verify_product_add_to_cart_and_total_amount&#34;, &#34;duration&#34;: &#34;00:00:39&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_flipkart_flow.py::test_verify_product_add_to_cart_and_total_amount&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:39&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;driver = &amp;lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&amp;quot;e94e8a5632f8609db54a4015ec5153a2&amp;quot;)&amp;gt;\n\n    def test_verify_product_add_to_cart_and_total_amount(driver):\n    \n        home_page = HomePage(driver)\n        search_results_page = SearchResultsPage(driver)\n        product_page = ProductPage(driver)\n        cart_page = CartPage(driver)\n        base_url = environment_config[&amp;quot;base_url&amp;quot;]\n    \n        # Ensure previous executions do not affect the product and total assertions.\n        cart_page.clear_cart_items(base_url)\n    \n        # Open Flipkart\n        home_page.open(base_url)\n    \n        # Close login popup if displayed\n        home_page.close_login_popup_if_present()\n    \n        # Get search keyword\n        keyword = test_data[&amp;quot;search&amp;quot;][&amp;quot;keyword&amp;quot;]\n    \n        # Search for mobile\n        home_page.search(keyword)\n    \n        # Get 10th product details\n        product_index = 10\n    \n        product_name = (\n            search_results_page\n            .get_product_name_by_index(product_index)\n        )\n    \n        product_price = (\n            search_results_page\n            .get_product_price_by_index(product_index)\n        )\n        product_price_digits = re.sub(r&amp;quot;[^0-9]&amp;quot;, &amp;quot;&amp;quot;, product_price)\n        assert product_price_digits, (\n            f&amp;quot;Could not extract a numeric amount from product price: {product_price}&amp;quot;\n        )\n        product_price_amount = int(product_price_digits)\n    \n        print(f&amp;quot;\\n10th Product: {product_name}&amp;quot;)\n        print(f&amp;quot;Product List Price: {product_price}&amp;quot;)\n    \n        # Click 10th phone name\n        handles_before = driver.window_handles[:]\n        search_results_page.click_product_by_index(\n            product_index\n        )\n    \n        # Product pages open in a new tab on Flipkart; switch before looking for\n        # product-page controls such as Add to Cart.\n        WebDriverWait(driver, 10).until(\n            lambda browser: len(browser.window_handles) &amp;gt; len(handles_before)\n        )\n        product_handle = next(\n            handle\n            for handle in driver.window_handles\n            if handle not in handles_before\n        )\n        driver.switch_to.window(product_handle)\n    \n        # Some product pages use an alternate &amp;quot;Add 1 Item to Cart&amp;quot; action.\n        if product_page.is_add_to_cart_available():\n            logger.info(&amp;quot;Using standard Add to Cart action.&amp;quot;)\n            product_page.click_add_to_cart()\n        else:\n            logger.info(&amp;quot;Using alternate Add 1 Item to Cart action.&amp;quot;)\n            product_page.add_one_item_to_cart()\n    \n        # Verify Add to Cart changed to Going to Cart\n        product_page.verify_going_to_cart()\n    \n        # Verify item is added to cart\n        product_page.click_going_to_cart()\n    \n&amp;gt;       cart_page.verify_product_in_cart(\n            product_name\n        )\n\ntests\\test_flipkart_flow.py:182: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;pages.cart_page.CartPage object at 0x00000210E533C190&amp;gt;\nproduct_name = &amp;#x27;Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons&amp;#x27;\n\n    def verify_product_in_cart(self, product_name):\n        page_text = (self.driver.find_element(By.TAG_NAME, &amp;quot;body&amp;quot;).text or &amp;quot;&amp;quot;).lower()\n&amp;gt;       assert product_name.strip().lower() in page_text, (\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n            f&amp;quot;Product &amp;#x27;{product_name}&amp;#x27; not found in cart page&amp;quot;\n        )\nE       AssertionError: Product &amp;#x27;Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons&amp;#x27; not found in cart page\n\npages\\cart_page.py:137: AssertionError\n\n------------------------------ Captured log setup ------------------------------\nINFO     conftest:conftest.py:431 Starting browser: chrome\nINFO     conftest:conftest.py:436 Headless mode: False\nINFO     WDM:logger.py:11 ====== WebDriver manager ======\nINFO     WDM:logger.py:11 Driver [C:\\Users\\Admin\\.wdm\\drivers\\chromedriver\\win64\\154.0.8037.92\\chromedriver-win64/chromedriver.exe] found in cache by browser version\nINFO     conftest:conftest.py:450 Browser started successfully\n\n------------------------------ Captured log call -------------------------------\nINFO     CartPage:cart_page.py:65 Cart is already empty; no cleanup is required.\nINFO     test_flipkart_flow:test_flipkart_flow.py:170 Using standard Add to Cart action.\nINFO     ProductPage:product_page.py:135 Clicked cart action using locator: (&amp;#x27;xpath&amp;#x27;, &amp;quot;//div[translate(normalize-space(text()), &amp;#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#x27;, &amp;#x27;abcdefghijklmnopqrstuvwxyz&amp;#x27;)=&amp;#x27;add to cart&amp;#x27;]&amp;quot;)\nINFO     ProductPage:product_page.py:135 Clicked cart action using locator: (&amp;#x27;xpath&amp;#x27;, &amp;quot;//div[translate(normalize-space(text()), &amp;#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#x27;, &amp;#x27;abcdefghijklmnopqrstuvwxyz&amp;#x27;)=&amp;#x27;going to cart&amp;#x27; or translate(normalize-space(text()), &amp;#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#x27;, &amp;#x27;abcdefghijklmnopqrstuvwxyz&amp;#x27;)=&amp;#x27;go to cart&amp;#x27;]&amp;quot;)\n\n---------------------------- Captured log teardown -----------------------------\nINFO     conftest:conftest.py:464 Closing browser\nINFO     conftest:conftest.py:470 Browser closed&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;execution_report.html&#34;}"></div>
+    <script>
+      (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const { getCollapsedCategory, setCollapsedIds } = require('./storage.js')
+
+class DataManager {
+    setManager(data) {
+        const collapsedCategories = [...getCollapsedCategory(data.renderCollapsed)]
+        const collapsedIds = []
+        const tests = Object.values(data.tests).flat().map((test, index) => {
+            const collapsed = collapsedCategories.includes(test.result.toLowerCase())
+            const id = `test_${index}`
+            if (collapsed) {
+                collapsedIds.push(id)
+            }
+            return {
+                ...test,
+                id,
+                collapsed,
+            }
+        })
+        const dataBlob = { ...data, tests }
+        this.data = { ...dataBlob }
+        this.renderData = { ...dataBlob }
+        setCollapsedIds(collapsedIds)
+    }
+
+    get allData() {
+        return { ...this.data }
+    }
+
+    resetRender() {
+        this.renderData = { ...this.data }
+    }
+
+    setRender(data) {
+        this.renderData.tests = [...data]
+    }
+
+    toggleCollapsedItem(id) {
+        this.renderData.tests = this.renderData.tests.map((test) =>
+            test.id === id ? { ...test, collapsed: !test.collapsed } : test,
+        )
+    }
+
+    set allCollapsed(collapsed) {
+        this.renderData = { ...this.renderData, tests: [...this.renderData.tests.map((test) => (
+            { ...test, collapsed }
+        ))] }
+    }
+
+    get testSubset() {
+        return [...this.renderData.tests]
+    }
+
+    get environment() {
+        return this.renderData.environment
+    }
+
+    get initialSort() {
+        return this.data.initialSort
+    }
+}
+
+module.exports = {
+    manager: new DataManager(),
+}
+
+},{"./storage.js":8}],2:[function(require,module,exports){
+const mediaViewer = require('./mediaviewer.js')
+const templateEnvRow = document.getElementById('template_environment_row')
+const templateResult = document.getElementById('template_results-table__tbody')
+
+function htmlToElements(html) {
+    const temp = document.createElement('template')
+    temp.innerHTML = html
+    return temp.content.childNodes
+}
+
+const find = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return elem.querySelector(selector)
+}
+
+const findAll = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return [...elem.querySelectorAll(selector)]
+}
+
+const dom = {
+    getStaticRow: (key, value) => {
+        const envRow = templateEnvRow.content.cloneNode(true)
+        const isObj = typeof value === 'object' && value !== null
+        const values = isObj ? Object.keys(value).map((k) => `${k}: ${value[k]}`) : null
+
+        const valuesElement = htmlToElements(
+            values ? `<ul>${values.map((val) => `<li>${val}</li>`).join('')}<ul>` : `<div>${value}</div>`)[0]
+        const td = findAll('td', envRow)
+        td[0].textContent = key
+        td[1].appendChild(valuesElement)
+
+        return envRow
+    },
+    getResultTBody: ({ testId, id, log, extras, resultsTableRow, tableHtml, result, collapsed }) => {
+        const resultBody = templateResult.content.cloneNode(true)
+        resultBody.querySelector('tbody').classList.add(result.toLowerCase())
+        resultBody.querySelector('tbody').id = testId
+        resultBody.querySelector('.collapsible').dataset.id = id
+
+        resultsTableRow.forEach((html) => {
+            const t = document.createElement('template')
+            t.innerHTML = html
+            resultBody.querySelector('.collapsible').appendChild(t.content)
+        })
+
+        if (log) {
+            // Wrap lines starting with "E" with span.error to color those lines red
+            const wrappedLog = log.replace(/^E.*$/gm, (match) => `<span class="error">${match}</span>`)
+            resultBody.querySelector('.log').innerHTML = wrappedLog
+        } else {
+            resultBody.querySelector('.log').remove()
+        }
+
+        if (collapsed) {
+            resultBody.querySelector('.collapsible > .col-result')?.classList.add('collapsed')
+            resultBody.querySelector('.extras-row').classList.add('hidden')
+        } else {
+            resultBody.querySelector('.collapsible > .col-result')?.classList.remove('collapsed')
+        }
+
+        const media = []
+        extras?.forEach(({ name, format_type, content }) => {
+            if (['image', 'video'].includes(format_type)) {
+                media.push({ path: content, name, format_type })
+            }
+
+            if (format_type === 'html') {
+                resultBody.querySelector('.extraHTML').insertAdjacentHTML('beforeend', `<div>${content}</div>`)
+            }
+        })
+        mediaViewer.setup(resultBody, media)
+
+        // Add custom html from the pytest_html_results_table_html hook
+        tableHtml?.forEach((item) => {
+            resultBody.querySelector('td[class="extra"]').insertAdjacentHTML('beforeend', item)
+        })
+
+        return resultBody
+    },
+}
+
+module.exports = {
+    dom,
+    htmlToElements,
+    find,
+    findAll,
+}
+
+},{"./mediaviewer.js":6}],3:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const storageModule = require('./storage.js')
+
+const getFilteredSubSet = (filter) =>
+    manager.allData.tests.filter(({ result }) => filter.includes(result.toLowerCase()))
+
+const doInitFilter = () => {
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+}
+
+const doFilter = (type, show) => {
+    if (show) {
+        storageModule.showCategory(type)
+    } else {
+        storageModule.hideCategory(type)
+    }
+
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+
+    const sortColumn = storageModule.getSort()
+    doSort(sortColumn, true)
+}
+
+module.exports = {
+    doFilter,
+    doInitFilter,
+}
+
+},{"./datamanager.js":1,"./sort.js":7,"./storage.js":8}],4:[function(require,module,exports){
+const { redraw, bindEvents, renderStatic } = require('./main.js')
+const { doInitFilter } = require('./filter.js')
+const { doInitSort } = require('./sort.js')
+const { manager } = require('./datamanager.js')
+const data = JSON.parse(document.getElementById('data-container').dataset.jsonblob)
+
+function init() {
+    manager.setManager(data)
+    doInitFilter()
+    doInitSort()
+    renderStatic()
+    redraw()
+    bindEvents()
+}
+
+init()
+
+},{"./datamanager.js":1,"./filter.js":3,"./main.js":5,"./sort.js":7}],5:[function(require,module,exports){
+const { dom, find, findAll } = require('./dom.js')
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const { doFilter } = require('./filter.js')
+const {
+    getVisible,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    getSortDirection,
+    possibleFilters,
+} = require('./storage.js')
+
+const removeChildren = (node) => {
+    while (node.firstChild) {
+        node.removeChild(node.firstChild)
+    }
+}
+
+const renderStatic = () => {
+    const renderEnvironmentTable = () => {
+        const environment = manager.environment
+        const rows = Object.keys(environment).map((key) => dom.getStaticRow(key, environment[key]))
+        const table = document.getElementById('environment')
+        removeChildren(table)
+        rows.forEach((row) => table.appendChild(row))
+    }
+    renderEnvironmentTable()
+}
+
+const addItemToggleListener = (elem) => {
+    elem.addEventListener('click', ({ target }) => {
+        const id = target.parentElement.dataset.id
+        manager.toggleCollapsedItem(id)
+
+        const collapsedIds = getCollapsedIds()
+        if (collapsedIds.includes(id)) {
+            const updated = collapsedIds.filter((item) => item !== id)
+            setCollapsedIds(updated)
+        } else {
+            collapsedIds.push(id)
+            setCollapsedIds(collapsedIds)
+        }
+        redraw()
+    })
+}
+
+const renderContent = (tests) => {
+    const sortAttr = getSort(manager.initialSort)
+    const sortAsc = JSON.parse(getSortDirection())
+    const rows = tests.map(dom.getResultTBody)
+    const table = document.getElementById('results-table')
+    const tableHeader = document.getElementById('results-table-head')
+
+    const newTable = document.createElement('table')
+    newTable.id = 'results-table'
+
+    // remove all sorting classes and set the relevant
+    findAll('.sortable', tableHeader).forEach((elem) => elem.classList.remove('asc', 'desc'))
+    tableHeader.querySelector(`.sortable[data-column-type="${sortAttr}"]`)?.classList.add(sortAsc ? 'desc' : 'asc')
+    newTable.appendChild(tableHeader)
+
+    if (!rows.length) {
+        const emptyTable = document.getElementById('template_results-table__body--empty').content.cloneNode(true)
+        newTable.appendChild(emptyTable)
+    } else {
+        rows.forEach((row) => {
+            if (!!row) {
+                findAll('.collapsible td:not(.col-links', row).forEach(addItemToggleListener)
+                find('.logexpander', row).addEventListener('click',
+                    (evt) => evt.target.parentNode.classList.toggle('expanded'),
+                )
+                newTable.appendChild(row)
+            }
+        })
+    }
+
+    table.replaceWith(newTable)
+}
+
+const renderDerived = () => {
+    const currentFilter = getVisible()
+    possibleFilters.forEach((result) => {
+        const input = document.querySelector(`input[data-test-result="${result}"]`)
+        input.checked = currentFilter.includes(result)
+    })
+}
+
+const bindEvents = () => {
+    const filterColumn = (evt) => {
+        const { target: element } = evt
+        const { testResult } = element.dataset
+
+        doFilter(testResult, element.checked)
+        const collapsedIds = getCollapsedIds()
+        const updated = manager.renderData.tests.map((test) => {
+            return {
+                ...test,
+                collapsed: collapsedIds.includes(test.id),
+            }
+        })
+        manager.setRender(updated)
+        redraw()
+    }
+
+    const header = document.getElementById('environment-header')
+    header.addEventListener('click', () => {
+        const table = document.getElementById('environment')
+        table.classList.toggle('hidden')
+        header.classList.toggle('collapsed')
+    })
+
+    findAll('input[name="filter_checkbox"]').forEach((elem) => {
+        elem.addEventListener('click', filterColumn)
+    })
+
+    findAll('.sortable').forEach((elem) => {
+        elem.addEventListener('click', (evt) => {
+            const { target: element } = evt
+            const { columnType } = element.dataset
+            doSort(columnType)
+            redraw()
+        })
+    })
+
+    document.getElementById('show_all_details').addEventListener('click', () => {
+        manager.allCollapsed = false
+        setCollapsedIds([])
+        redraw()
+    })
+    document.getElementById('hide_all_details').addEventListener('click', () => {
+        manager.allCollapsed = true
+        const allIds = manager.renderData.tests.map((test) => test.id)
+        setCollapsedIds(allIds)
+        redraw()
+    })
+}
+
+const redraw = () => {
+    const { testSubset } = manager
+
+    renderContent(testSubset)
+    renderDerived()
+}
+
+module.exports = {
+    redraw,
+    bindEvents,
+    renderStatic,
+}
+
+},{"./datamanager.js":1,"./dom.js":2,"./filter.js":3,"./sort.js":7,"./storage.js":8}],6:[function(require,module,exports){
+class MediaViewer {
+    constructor(assets) {
+        this.assets = assets
+        this.index = 0
+    }
+
+    nextActive() {
+        this.index = this.index === this.assets.length - 1 ? 0 : this.index + 1
+        return [this.activeFile, this.index]
+    }
+
+    prevActive() {
+        this.index = this.index === 0 ? this.assets.length - 1 : this.index -1
+        return [this.activeFile, this.index]
+    }
+
+    get currentIndex() {
+        return this.index
+    }
+
+    get activeFile() {
+        return this.assets[this.index]
+    }
+}
+
+
+const setup = (resultBody, assets) => {
+    if (!assets.length) {
+        resultBody.querySelector('.media').classList.add('hidden')
+        return
+    }
+
+    const mediaViewer = new MediaViewer(assets)
+    const container = resultBody.querySelector('.media-container')
+    const leftArrow = resultBody.querySelector('.media-container__nav--left')
+    const rightArrow = resultBody.querySelector('.media-container__nav--right')
+    const mediaName = resultBody.querySelector('.media__name')
+    const counter = resultBody.querySelector('.media__counter')
+    const imageEl = resultBody.querySelector('img')
+    const sourceEl = resultBody.querySelector('source')
+    const videoEl = resultBody.querySelector('video')
+
+    const setImg = (media, index) => {
+        if (media?.format_type === 'image') {
+            imageEl.src = media.path
+
+            imageEl.classList.remove('hidden')
+            videoEl.classList.add('hidden')
+        } else if (media?.format_type === 'video') {
+            sourceEl.src = media.path
+
+            videoEl.classList.remove('hidden')
+            imageEl.classList.add('hidden')
+        }
+
+        mediaName.innerText = media?.name
+        counter.innerText = `${index + 1} / ${assets.length}`
+    }
+    setImg(mediaViewer.activeFile, mediaViewer.currentIndex)
+
+    const moveLeft = () => {
+        const [media, index] = mediaViewer.prevActive()
+        setImg(media, index)
+    }
+    const doRight = () => {
+        const [media, index] = mediaViewer.nextActive()
+        setImg(media, index)
+    }
+    const openImg = () => {
+        window.open(mediaViewer.activeFile.path, '_blank')
+    }
+    if (assets.length === 1) {
+        container.classList.add('media-container--fullscreen')
+    } else {
+        leftArrow.addEventListener('click', moveLeft)
+        rightArrow.addEventListener('click', doRight)
+    }
+    imageEl.addEventListener('click', openImg)
+}
+
+module.exports = {
+    setup,
+}
+
+},{}],7:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const storageModule = require('./storage.js')
+
+const genericSort = (list, key, ascending, customOrder) => {
+    let sorted
+    if (customOrder) {
+        sorted = list.sort((a, b) => {
+            const aValue = a.result.toLowerCase()
+            const bValue = b.result.toLowerCase()
+
+            const aIndex = customOrder.findIndex((item) => item.toLowerCase() === aValue)
+            const bIndex = customOrder.findIndex((item) => item.toLowerCase() === bValue)
+
+            // Compare the indices to determine the sort order
+            return aIndex - bIndex
+        })
+    } else {
+        sorted = list.sort((a, b) => a[key] === b[key] ? 0 : a[key] > b[key] ? 1 : -1)
+    }
+
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const durationSort = (list, ascending) => {
+    const parseDuration = (duration) => {
+        if (duration.includes(':')) {
+            // If it's in the format "HH:mm:ss"
+            const [hours, minutes, seconds] = duration.split(':').map(Number)
+            return (hours * 3600 + minutes * 60 + seconds) * 1000
+        } else {
+            // If it's in the format "nnn ms"
+            return parseInt(duration)
+        }
+    }
+    const sorted = list.sort((a, b) => parseDuration(a['duration']) - parseDuration(b['duration']))
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const doInitSort = () => {
+    const type = storageModule.getSort(manager.initialSort)
+    const ascending = storageModule.getSortDirection()
+    const list = manager.testSubset
+    const initialOrder = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed', 'Skipped', 'Passed']
+
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    if (type?.toLowerCase() === 'original') {
+        manager.setRender(list)
+    } else {
+        let sortedList
+        switch (type) {
+        case 'duration':
+            sortedList = durationSort(list, ascending)
+            break
+        case 'result':
+            sortedList = genericSort(list, type, ascending, initialOrder)
+            break
+        default:
+            sortedList = genericSort(list, type, ascending)
+            break
+        }
+        manager.setRender(sortedList)
+    }
+}
+
+const doSort = (type, skipDirection) => {
+    const newSortType = storageModule.getSort(manager.initialSort) !== type
+    const currentAsc = storageModule.getSortDirection()
+    let ascending
+    if (skipDirection) {
+        ascending = currentAsc
+    } else {
+        ascending = newSortType ? false : !currentAsc
+    }
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    const list = manager.testSubset
+    const sortedList = type === 'duration' ? durationSort(list, ascending) : genericSort(list, type, ascending)
+    manager.setRender(sortedList)
+}
+
+module.exports = {
+    doInitSort,
+    doSort,
+}
+
+},{"./datamanager.js":1,"./storage.js":8}],8:[function(require,module,exports){
+const possibleFilters = [
+    'passed',
+    'skipped',
+    'failed',
+    'error',
+    'xfailed',
+    'xpassed',
+    'rerun',
+]
+
+const getVisible = () => {
+    const url = new URL(window.location.href)
+    const settings = new URLSearchParams(url.search).get('visible')
+    const lower = (item) => {
+        const lowerItem = item.toLowerCase()
+        if (possibleFilters.includes(lowerItem)) {
+            return lowerItem
+        }
+        return null
+    }
+    return settings === null ?
+        possibleFilters :
+        [...new Set(settings?.split(',').map(lower).filter((item) => item))]
+}
+
+const hideCategory = (categoryToHide) => {
+    const url = new URL(window.location.href)
+    const visibleParams = new URLSearchParams(url.search).get('visible')
+    const currentVisible = visibleParams ? visibleParams.split(',') : [...possibleFilters]
+    const settings = [...new Set(currentVisible)].filter((f) => f !== categoryToHide).join(',')
+
+    url.searchParams.set('visible', settings)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const showCategory = (categoryToShow) => {
+    if (typeof window === 'undefined') {
+        return
+    }
+    const url = new URL(window.location.href)
+    const currentVisible = new URLSearchParams(url.search).get('visible')?.split(',').filter(Boolean) ||
+        [...possibleFilters]
+    const settings = [...new Set([categoryToShow, ...currentVisible])]
+    const noFilter = possibleFilters.length === settings.length || !settings.length
+
+    noFilter ? url.searchParams.delete('visible') : url.searchParams.set('visible', settings.join(','))
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getSort = (initialSort) => {
+    const url = new URL(window.location.href)
+    let sort = new URLSearchParams(url.search).get('sort')
+    if (!sort) {
+        sort = initialSort || 'result'
+    }
+    return sort
+}
+
+const setSort = (type) => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('sort', type)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getCollapsedCategory = (renderCollapsed) => {
+    let categories
+    if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href)
+        const collapsedItems = new URLSearchParams(url.search).get('collapsed')
+        switch (true) {
+        case !renderCollapsed && collapsedItems === null:
+            categories = ['passed']
+            break
+        case collapsedItems?.length === 0 || /^["']{2}$/.test(collapsedItems):
+            categories = []
+            break
+        case /^all$/.test(collapsedItems) || collapsedItems === null && /^all$/.test(renderCollapsed):
+            categories = [...possibleFilters]
+            break
+        default:
+            categories = collapsedItems?.split(',').map((item) => item.toLowerCase()) || renderCollapsed
+            break
+        }
+    } else {
+        categories = []
+    }
+    return categories
+}
+
+const getSortDirection = () => JSON.parse(sessionStorage.getItem('sortAsc')) || false
+const setSortDirection = (ascending) => sessionStorage.setItem('sortAsc', ascending)
+
+const getCollapsedIds = () => JSON.parse(sessionStorage.getItem('collapsedIds')) || []
+const setCollapsedIds = (list) => sessionStorage.setItem('collapsedIds', JSON.stringify(list))
+
+module.exports = {
+    getVisible,
+    hideCategory,
+    showCategory,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    setSort,
+    getSortDirection,
+    setSortDirection,
+    getCollapsedCategory,
+    possibleFilters,
+}
+
+},{}]},{},[4]);
+    </script>
+  </footer>
+  </body>
+</html>

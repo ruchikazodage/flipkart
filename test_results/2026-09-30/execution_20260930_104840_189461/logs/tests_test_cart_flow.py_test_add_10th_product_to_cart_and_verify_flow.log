@@ -1,0 +1,13 @@
+2026-09-30 10:48:40 | INFO | conftest | Starting browser: chrome
+2026-09-30 10:48:40 | INFO | conftest | Headless mode: False
+2026-09-30 10:48:40 | INFO | WDM | ====== WebDriver manager ======
+2026-09-30 10:48:42 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-09-30 10:48:45 | INFO | conftest | Browser started successfully
+2026-09-30 10:48:49 | INFO | CartPage | Cart is already empty; no cleanup is required.
+2026-09-30 10:48:55 | INFO | SearchResultsPage | No original price is displayed; using selling price: 11999
+2026-09-30 10:48:55 | INFO | test_cart_flow | 10th product name: Samsung Galaxy F07 (Green, 64 GB)
+2026-09-30 10:48:55 | INFO | test_cart_flow | 10th product original price: ₹11,999 -> 11999
+2026-09-30 10:49:06 | INFO | test_cart_flow | Using alternate Add 1 Item to Cart action.
+2026-09-30 10:49:29 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-09-30\execution_20260930_104840_189461\screenshots\tests_test_cart_flow.py_test_add_10th_product_to_cart_and_verify_flow_4fe1463de5.png
+2026-09-30 10:49:29 | INFO | conftest | Closing browser
+2026-09-30 10:49:31 | INFO | conftest | Browser closed

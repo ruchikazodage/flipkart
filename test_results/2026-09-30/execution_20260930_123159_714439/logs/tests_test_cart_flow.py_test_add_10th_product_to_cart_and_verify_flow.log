@@ -1,0 +1,16 @@
+2026-09-30 12:32:00 | INFO | conftest | Starting browser: chrome
+2026-09-30 12:32:00 | INFO | conftest | Headless mode: False
+2026-09-30 12:32:00 | INFO | WDM | ====== WebDriver manager ======
+2026-09-30 12:32:02 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-09-30 12:32:04 | INFO | conftest | Browser started successfully
+2026-09-30 12:32:10 | INFO | CartPage | Cart is already empty; no cleanup is required.
+2026-09-30 12:32:18 | INFO | test_cart_flow | 10th product name: Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons
+2026-09-30 12:32:18 | INFO | test_cart_flow | 10th product original price: ₹2,499 -> 2499
+2026-09-30 12:32:22 | INFO | test_cart_flow | Using standard Add to Cart action.
+2026-09-30 12:32:24 | INFO | ProductPage | Clicked cart action using locator: ('xpath', "//div[translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='add to cart']")
+2026-09-30 12:32:46 | INFO | ProductPage | Clicked cart action using locator: ('xpath', "//div[translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='going to cart' or translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='go to cart']")
+2026-09-30 12:32:48 | INFO | CartPage | Verified product is visible in cart: Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons
+2026-09-30 12:32:49 | INFO | CartPage | Cart quantity changed to: 2
+2026-09-30 12:32:50 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-09-30\execution_20260930_123159_714439\screenshots\tests_test_cart_flow.py_test_add_10th_product_to_cart_and_verify_flow_4fe1463de5.png
+2026-09-30 12:32:50 | INFO | conftest | Closing browser
+2026-09-30 12:32:53 | INFO | conftest | Browser closed

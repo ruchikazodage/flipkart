@@ -1,0 +1,20 @@
+2026-10-01 00:10:35 | INFO | conftest | Starting browser: chrome
+2026-10-01 00:10:35 | INFO | conftest | Headless mode: False
+2026-10-01 00:10:35 | INFO | WDM | ====== WebDriver manager ======
+2026-10-01 00:10:36 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-10-01 00:10:38 | INFO | conftest | Browser started successfully
+2026-10-01 00:10:38 | INFO | test_cart_quantity_removal_flow | Starting cart quantity and removal flow.
+2026-10-01 00:10:38 | INFO | test_cart_quantity_removal_flow | Clearing cart so the test starts with exactly one product.
+2026-10-01 00:10:41 | INFO | CartPage | Cart is already empty; no cleanup is required.
+2026-10-01 00:10:41 | INFO | test_cart_quantity_removal_flow | Opening Flipkart: https://www.flipkart.com/
+2026-10-01 00:10:44 | INFO | test_cart_quantity_removal_flow | Closing the login popup when it is displayed.
+2026-10-01 00:10:44 | INFO | LoginPopupComponent | Login popup was not displayed.
+2026-10-01 00:10:44 | INFO | test_cart_quantity_removal_flow | Searching for product keyword: mobile
+2026-10-01 00:10:46 | INFO | HeaderComponent | Searched from header for: mobile
+2026-10-01 00:10:46 | INFO | test_cart_quantity_removal_flow | Selected product 10: Samsung Galaxy F07 (Green, 64 GB)
+2026-10-01 00:10:46 | INFO | test_cart_quantity_removal_flow | Opening selected product details.
+2026-10-01 00:10:47 | INFO | test_cart_quantity_removal_flow | Switched to the product-details tab.
+2026-10-01 00:10:57 | INFO | test_cart_quantity_removal_flow | Adding product using the viewport-lazy Add 1 Item to Cart control.
+2026-10-01 00:11:17 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-10-01\execution_20261001_000957_199071\screenshots\tests_test_cart_quantity_removal_flow.py_test_increase_product_quantity_and_remo_7fdf08fe27.png
+2026-10-01 00:11:17 | INFO | conftest | Closing browser
+2026-10-01 00:11:20 | INFO | conftest | Browser closed

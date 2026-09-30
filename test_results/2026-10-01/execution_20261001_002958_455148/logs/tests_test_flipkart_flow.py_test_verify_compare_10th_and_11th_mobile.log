@@ -1,0 +1,4 @@
+2026-10-01 00:31:17 | INFO | conftest | Starting browser: chrome
+2026-10-01 00:31:17 | INFO | conftest | Headless mode: False
+2026-10-01 00:31:17 | INFO | WDM | ====== WebDriver manager ======
+2026-10-01 00:31:17 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version

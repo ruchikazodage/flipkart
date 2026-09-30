@@ -1,0 +1,7 @@
+search:
+  keyword: "button mobile"
+  compare_indices:
+    - 10
+    - 11
+
+  #target_product_index: 10

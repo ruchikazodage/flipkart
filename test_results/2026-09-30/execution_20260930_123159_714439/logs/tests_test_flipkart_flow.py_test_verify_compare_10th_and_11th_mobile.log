@@ -1,0 +1,11 @@
+2026-09-30 12:33:58 | INFO | conftest | Starting browser: chrome
+2026-09-30 12:33:58 | INFO | conftest | Headless mode: False
+2026-09-30 12:33:58 | INFO | WDM | ====== WebDriver manager ======
+2026-09-30 12:33:59 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-09-30 12:34:00 | INFO | conftest | Browser started successfully
+2026-09-30 12:34:08 | INFO | SearchResultsPage | Compare tray displayed successfully.
+2026-09-30 12:34:08 | INFO | SearchResultsPage | Products selected for comparison: ['Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons', 'Nokia 105 Dual Sim Keypad Phone with Built-in UPI Payments']
+2026-09-30 12:34:09 | INFO | pages.comparison_page | Flipkart comparison products: ['Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons', 'Nokia 105 Dual Sim Keypad Phone with Built-in UPI Payments', 'Nokia 130 Music Dual Sim with Music Player, Dedicated Music Buttons', 'Nokia 105 Dual Sim Keypad Phone with Built-in UPI Payments']
+2026-09-30 12:34:09 | INFO | pages.comparison_page | Flipkart comparison verification successful.
+2026-09-30 12:34:09 | INFO | conftest | Closing browser
+2026-09-30 12:34:12 | INFO | conftest | Browser closed

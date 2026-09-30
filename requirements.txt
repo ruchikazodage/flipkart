@@ -1,0 +1,9 @@
+selenium
+pytest
+pytest-html
+webdriver-manager
+pyyaml
+python-dotenv
+requests
+sqlalchemy
+openpyxl

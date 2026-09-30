@@ -1,0 +1,12 @@
+2026-10-01 00:18:39 | INFO | conftest | Starting browser: chrome
+2026-10-01 00:18:39 | INFO | conftest | Headless mode: False
+2026-10-01 00:18:39 | INFO | WDM | ====== WebDriver manager ======
+2026-10-01 00:18:39 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-10-01 00:18:41 | INFO | conftest | Browser started successfully
+2026-10-01 00:18:44 | INFO | CartPage | Cart is already empty; no cleanup is required.
+2026-10-01 00:18:52 | INFO | test_flipkart_flow | Using standard Add to Cart action.
+2026-10-01 00:18:54 | INFO | ProductPage | Clicked cart action using locator: ('xpath', "//div[translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='add to cart']")
+2026-10-01 00:19:15 | INFO | ProductPage | Clicked cart action using locator: ('xpath', "//div[translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='going to cart' or translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='go to cart']")
+2026-10-01 00:19:15 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-10-01\execution_20261001_001633_834832\screenshots\tests_test_flipkart_flow.py_test_verify_product_add_to_cart_and_total_amount_0c9ca27438.png
+2026-10-01 00:19:15 | INFO | conftest | Closing browser
+2026-10-01 00:19:18 | INFO | conftest | Browser closed

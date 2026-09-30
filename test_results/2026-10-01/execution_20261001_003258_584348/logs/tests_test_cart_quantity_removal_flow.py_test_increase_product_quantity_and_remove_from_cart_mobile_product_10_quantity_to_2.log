@@ -1,0 +1,30 @@
+2026-10-01 00:33:20 | INFO | conftest | Starting browser: chrome
+2026-10-01 00:33:20 | INFO | conftest | Headless mode: False
+2026-10-01 00:33:20 | INFO | WDM | ====== WebDriver manager ======
+2026-10-01 00:33:21 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-10-01 00:33:22 | INFO | conftest | Browser started successfully
+2026-10-01 00:33:22 | INFO | test_cart_quantity_removal_flow | Starting cart quantity and removal flow.
+2026-10-01 00:33:22 | INFO | test_cart_quantity_removal_flow | Clearing cart so the test starts with exactly one product.
+2026-10-01 00:33:37 | ERROR | conftest | Failed to capture screenshot: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff64fba9d55+5a55]
+	chromedriver!(No symbol) [0x7ff64facf540]
+	chromedriver!(No symbol) [0x7ff64f8f43f6]
+	chromedriver!(No symbol) [0x7ff64f940b13]
+	chromedriver!(No symbol) [0x7ff64f978ff2]
+	chromedriver!(No symbol) [0x7ff64f972dc2]
+	chromedriver!(No symbol) [0x7ff64f972552]
+	chromedriver!(No symbol) [0x7ff64f8bc95b]
+	chromedriver!(No symbol) [0x7ff64f8bcfb2]
+	chromedriver!(No symbol) [0x7ff64f8bd5e5]
+	chromedriver!GetHandleVerifier [0x7ff64ffc04b1+41c1b1]
+	chromedriver!GetHandleVerifier [0x7ff64ffee26b+449f6b]
+	chromedriver!GetHandleVerifier [0x7ff64ffe274e+43e44e]
+	chromedriver!GetHandleVerifier [0x7ff64fca32fe+feffe]
+	chromedriver!(No symbol) [0x7ff64fadcb55]
+	chromedriver!(No symbol) [0x7ff64f8bbd9a]
+	chromedriver!GetHandleVerifier [0x7ff650052b4f+4ae84f]
+	KERNEL32!BaseThreadInitThunk [0x7ff891917374+14]
+	ntdll!RtlUserThreadStart [0x7ff8927fcc91+21]
+
+2026-10-01 00:33:37 | INFO | conftest | Closing browser

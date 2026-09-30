@@ -1,0 +1,16 @@
+2026-09-30 10:49:31 | INFO | conftest | Starting browser: chrome
+2026-09-30 10:49:31 | INFO | conftest | Headless mode: False
+2026-09-30 10:49:31 | INFO | WDM | ====== WebDriver manager ======
+2026-09-30 10:49:33 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
+2026-09-30 10:49:34 | INFO | conftest | Browser started successfully
+2026-09-30 10:49:34 | INFO | test_cart_quantity_removal_flow | Starting cart quantity and removal flow.
+2026-09-30 10:49:34 | INFO | test_cart_quantity_removal_flow | Clearing cart so the test starts with exactly one product.
+2026-09-30 10:49:37 | INFO | CartPage | Cart is already empty; no cleanup is required.
+2026-09-30 10:49:37 | INFO | test_cart_quantity_removal_flow | Opening Flipkart: https://www.flipkart.com/
+2026-09-30 10:49:40 | INFO | test_cart_quantity_removal_flow | Closing the login popup when it is displayed.
+2026-09-30 10:49:40 | INFO | LoginPopupComponent | Login popup was not displayed.
+2026-09-30 10:49:40 | INFO | test_cart_quantity_removal_flow | Searching for product keyword: mobile
+2026-09-30 10:49:40 | INFO | HeaderComponent | Searched from header for: mobile
+2026-09-30 10:50:01 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-09-30\execution_20260930_104840_189461\screenshots\tests_test_cart_quantity_removal_flow.py_test_increase_product_quantity_and_remo_7fdf08fe27.png
+2026-09-30 10:50:01 | INFO | conftest | Closing browser
+2026-09-30 10:50:04 | INFO | conftest | Browser closed
