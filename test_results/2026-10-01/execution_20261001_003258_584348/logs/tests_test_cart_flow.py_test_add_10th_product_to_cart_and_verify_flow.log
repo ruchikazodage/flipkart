@@ -1,8 +1,0 @@
-2026-10-01 00:32:59 | INFO | conftest | Starting browser: chrome
-2026-10-01 00:32:59 | INFO | conftest | Headless mode: False
-2026-10-01 00:32:59 | INFO | WDM | ====== WebDriver manager ======
-2026-10-01 00:33:00 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
-2026-10-01 00:33:02 | INFO | conftest | Browser started successfully
-2026-10-01 00:33:18 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-10-01\execution_20261001_003258_584348\screenshots\tests_test_cart_flow.py_test_add_10th_product_to_cart_and_verify_flow_4fe1463de5.png
-2026-10-01 00:33:18 | INFO | conftest | Closing browser
-2026-10-01 00:33:20 | INFO | conftest | Browser closed

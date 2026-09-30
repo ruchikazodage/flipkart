@@ -183,23 +183,12 @@ def test_verify_product_add_to_cart_and_total_amount(driver):
         product_name
     )
 
-    # The list-page price is the selling price. Include the platform fee only
-    # when Flipkart applies a non-zero fee to the cart.
-    platform_fee_labels = [
-        label
-        for label in driver.find_elements(*cart_page.PLATFORM_FEE_LABEL)
-        if label.is_displayed()
-    ]
-    platform_fee = (
-        cart_page._amount_for_label(cart_page.PLATFORM_FEE_LABEL, "Platform Fee")
-        if platform_fee_labels
-        else 0
-    )
+    # The list-page price is the selling price. The cart summary supplies the
+    # platform fee (zero when Flipkart omits that line).
+    price_breakdown = cart_page.get_price_breakdown()
+    platform_fee = price_breakdown["platform_fee"]
     expected_total_amount = product_price_amount + platform_fee
-    cart_total = cart_page._amount_for_label(
-        cart_page.TOTAL_AMOUNT_LABEL,
-        "Total Amount",
-    )
+    cart_total = price_breakdown["total_amount"]
 
     logger.info(
         "Product price: %s | Platform fee: %s | Expected total: %s | Cart total: %s",
@@ -215,4 +204,13 @@ def test_verify_product_add_to_cart_and_total_amount(driver):
         f"Platform fee: {platform_fee}\n"
         f"Expected Total Amount: {expected_total_amount}\n"
         f"Cart Total Amount: {cart_total}"
+    )
+    assert (
+        price_breakdown["price"] - price_breakdown["discount"]
+        == product_price_amount
+    ), (
+        "Cart selling price does not match the search-results selling price.\n"
+        f"Cart price: {price_breakdown['price']}\n"
+        f"Cart discount: {price_breakdown['discount']}\n"
+        f"Search-results selling price: {product_price_amount}"
     )

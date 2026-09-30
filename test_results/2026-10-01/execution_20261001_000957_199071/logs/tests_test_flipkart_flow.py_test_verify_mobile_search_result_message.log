@@ -1,8 +1,0 @@
-2026-10-01 00:11:20 | INFO | conftest | Starting browser: chrome
-2026-10-01 00:11:20 | INFO | conftest | Headless mode: False
-2026-10-01 00:11:20 | INFO | WDM | ====== WebDriver manager ======
-2026-10-01 00:11:21 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
-2026-10-01 00:11:22 | INFO | conftest | Browser started successfully
-2026-10-01 00:11:48 | INFO | conftest | Failure screenshot saved: C:\Users\Admin\RuchikaZ\VS\Unbox_QA_Automation_Lead_Assignment\test_results\2026-10-01\execution_20261001_000957_199071\screenshots\tests_test_flipkart_flow.py_test_verify_mobile_search_result_message_5f9d447788.png
-2026-10-01 00:11:48 | INFO | conftest | Closing browser
-2026-10-01 00:11:51 | INFO | conftest | Browser closed

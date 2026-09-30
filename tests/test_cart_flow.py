@@ -50,13 +50,13 @@ def test_add_10th_product_to_cart_and_verify_flow(driver):
 
     product_index = 10
 
-    # Capture name and struck-through/original price from the search results.
+    # Capture the product's selling price from the search results.
     product_name = search_results_page.get_product_name_by_index(product_index)
-    list_price_text = search_results_page.get_original_product_price_by_index(product_index)
-    list_price = _parse_price(list_price_text)
+    product_price_text = search_results_page.get_product_price_by_index(product_index)
+    product_price = _parse_price(product_price_text)
 
     logger.info("10th product name: %s", product_name)
-    logger.info("10th product original price: %s -> %s", list_price_text, list_price)
+    logger.info("10th product selling price: %s -> %s", product_price_text, product_price)
 
     # Click product (may open new tab)
     handles_before = driver.window_handles[:]
@@ -85,14 +85,34 @@ def test_add_10th_product_to_cart_and_verify_flow(driver):
     # Click Going to Cart to go to cart page
     product_page.click_going_to_cart()
 
-    # Verify the selected product and its original price in the cart.
+    # Verify the selected product and compare the selling price plus platform fee
+    # with the cart's Total Amount.
     cart_page.verify_product_in_cart(product_name)
-    cart_product_price = cart_page.get_cart_product_price()
+    price_breakdown = cart_page.get_price_breakdown()
+    platform_fee = price_breakdown["platform_fee"]
+    expected_total = product_price + platform_fee
+    cart_total = price_breakdown["total_amount"]
 
-    assert cart_product_price == list_price, (
-        "Cart price does not match the original struck-through product price.\n"
-        f"Original product price: {list_price}\n"
-        f"Actual cart price: {cart_product_price}"
+    logger.info(
+        "Product selling price: %s | Platform fee: %s | "
+        "Expected total: %s | Cart total: %s",
+        product_price,
+        platform_fee,
+        expected_total,
+        cart_total,
+    )
+    assert price_breakdown["price"] - price_breakdown["discount"] == product_price, (
+        "Cart selling price does not match the search-results selling price.\n"
+        f"Cart price: {price_breakdown['price']}\n"
+        f"Cart discount: {price_breakdown['discount']}\n"
+        f"Search-results selling price: {product_price}"
+    )
+    assert cart_total == expected_total, (
+        "Cart Total Amount does not match selling price plus platform fee.\n"
+        f"Product selling price: {product_price}\n"
+        f"Platform fee: {platform_fee}\n"
+        f"Expected Total Amount: {expected_total}\n"
+        f"Cart Total Amount: {cart_total}"
     )
 
     # Flipkart presents quantity as a Qty dropdown, not a plus button.

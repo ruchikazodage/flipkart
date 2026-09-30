@@ -13,7 +13,8 @@ class CartPage(BasePage):
     QUANTITY_DROPDOWN = (By.XPATH, "//select[option[normalize-space()='1']]")
     REMOVE_BUTTONS = (
         By.XPATH,
-        "//*[self::button or @role='button'][normalize-space()='Remove']",
+        "//*[self::button or @role='button' or self::div]"
+        "[normalize-space()='Remove']",
     )
 
     def open_cart(self, base_url):
@@ -127,7 +128,13 @@ class CartPage(BasePage):
             "platform_fee": self._summary_amount(r"^platform fee$"),
             "total_amount": self._summary_amount(r"^total amount$"),
         }
-        missing = [name for name, amount in breakdown.items() if amount is None]
+        # Flipkart can omit a zero discount or platform fee from the summary.
+        breakdown["discount"] = breakdown["discount"] or 0
+        breakdown["platform_fee"] = breakdown["platform_fee"] or 0
+        missing = [
+            name for name in ("price", "total_amount")
+            if breakdown[name] is None
+        ]
         assert not missing, f"Cart price details missing fields: {', '.join(missing)}"
 
         self.logger.info("Cart price breakdown: %s", breakdown)
@@ -184,7 +191,9 @@ class CartPage(BasePage):
         return str(self.get_price_breakdown()["total_amount"])
 
     def remove_item(self):
-        remove_buttons = self._visible_remove_buttons()
-        assert remove_buttons, "No Remove button is available for the cart item."
-        remove_buttons[0].click()
+        remove_button = WebDriverWait(self.driver, 15).until(
+            EC.element_to_be_clickable(self.REMOVE_BUTTONS)
+        )
+        self.logger.info("Clicking the cart item's Remove control.")
+        remove_button.click()
         self._confirm_removal()
