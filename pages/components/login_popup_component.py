@@ -7,8 +7,14 @@ from pages.base_page import BasePage
 
 class LoginPopupComponent(BasePage):
     CLOSE_BUTTON_LOCATORS = [
-        (By.XPATH, "//*[self::button or self::span][normalize-space()='✕']"),
-        (By.XPATH, "//*[self::button or self::span][normalize-space()='×']"),
+        (By.CSS_SELECTOR, "span._30XB9F"),
+        (By.CSS_SELECTOR, "[aria-label='Close'], [aria-label='close'], [title='Close']"),
+        (
+            By.XPATH,
+            "//*[self::button or @role='button' or self::span or self::div]"
+            "[normalize-space()='\u00d7' or normalize-space()='\u2715' "
+            "or normalize-space()='X']",
+        ),
     ]
 
     def close_if_present(self):

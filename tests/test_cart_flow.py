@@ -47,6 +47,7 @@ def test_add_10th_product_to_cart_and_verify_flow(driver):
     home_page.open(base_url)
     home_page.close_login_popup_if_present()
     home_page.search(keyword)
+    home_page.select_nokia_brand_filter()
 
     product_index = 10
 

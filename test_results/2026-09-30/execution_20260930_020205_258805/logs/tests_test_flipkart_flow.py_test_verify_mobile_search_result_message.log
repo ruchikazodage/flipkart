@@ -1,8 +1,0 @@
-2026-09-30 02:03:43 | INFO | conftest | Starting browser: chrome
-2026-09-30 02:03:43 | INFO | conftest | Headless mode: False
-2026-09-30 02:03:43 | INFO | WDM | ====== WebDriver manager ======
-2026-09-30 02:03:44 | INFO | WDM | Driver [C:\Users\Admin\.wdm\drivers\chromedriver\win64\154.0.8037.92\chromedriver-win64/chromedriver.exe] found in cache by browser version
-2026-09-30 02:03:46 | INFO | conftest | Browser started successfully
-2026-09-30 02:03:54 | INFO | test_flipkart_flow | TEST CASE: test_verify_mobile_search_result_message | VERIFIED SEARCH RESULTS: Showing 1 – 24 of 7,926 results for "mobile"
-2026-09-30 02:03:54 | INFO | conftest | Closing browser
-2026-09-30 02:03:56 | INFO | conftest | Browser closed

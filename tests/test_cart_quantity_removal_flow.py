@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from config.settings import cart_test_data, environment_config
 from pages.cart_page import CartPage
+from pages.home_page import HomePage
 from pages.components.cart_summary_component import CartSummaryComponent
 from pages.components.header_component import HeaderComponent
 from pages.components.login_popup_component import LoginPopupComponent
@@ -25,6 +26,7 @@ logger = get_logger(__name__)
 def test_increase_product_quantity_and_remove_from_cart(driver, scenario):
     """Increase a cart item's quantity, then remove it."""
     header = HeaderComponent(driver)
+    home_page = HomePage(driver)
     login_popup = LoginPopupComponent(driver)
     cart_summary = CartSummaryComponent(driver)
     search_results_page = SearchResultsPage(driver)
@@ -42,6 +44,11 @@ def test_increase_product_quantity_and_remove_from_cart(driver, scenario):
     driver.get(base_url)
     login_popup.close_if_present()
     header.search(keyword)
+    # The login dialog can appear asynchronously after the initial page load.
+    # Close it and retry the search if it appeared over the results transition.
+    if login_popup.close_if_present():
+        header.search(keyword)
+    home_page.select_nokia_brand_filter()
     product_name = search_results_page.get_product_name_by_index(product_index)
     logger.info("Selected product %s: %s", product_index, product_name)
 

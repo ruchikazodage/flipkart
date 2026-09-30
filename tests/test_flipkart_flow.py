@@ -126,6 +126,9 @@ def test_verify_product_add_to_cart_and_total_amount(driver):
     # Search for mobile
     home_page.search(keyword)
 
+    # Restrict this cart test to Nokia products.
+    home_page.select_nokia_brand_filter()
+
     # Get 10th product details
     product_index = 10
 
